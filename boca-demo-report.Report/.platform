@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "boca-demo-report"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "b0c84519-9074-496f-b990-7875cadeab4a"
+  }
+}

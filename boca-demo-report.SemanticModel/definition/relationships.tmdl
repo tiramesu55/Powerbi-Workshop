@@ -1,0 +1,13 @@
+relationship 166eb0da-a735-4e98-9337-75bf40d64f79
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactSales.OrderDate
+	toColumn: LocalDateTable_eb6f806a-488a-4721-a169-f3fbb016ede0.Date
+
+relationship AutoDetected_4f27e2f4-ad5f-47d8-aa1d-53cec5e0e8de
+	fromColumn: FactSales.DepartmentID
+	toColumn: DimDepartment.DepartmentID
+
+relationship eb800575-b83a-f930-d1e1-dc6902c64719
+	fromColumn: FactSales.ProductID
+	toColumn: DimProduct.ProductID
+

@@ -1,0 +1,96 @@
+table FactSales
+	lineageTag: b17583c7-da93-4a56-a7f7-f8033df9858e
+
+	measure Revenue = SUMX(FactSales, FactSales[Quantity] * FactSales[UnitPrice])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 304efa2a-1186-43b6-9e75-faf6ea8a492a
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Order Count' = COUNTROWS(FactSales)
+		formatString: 0
+		lineageTag: d86d50c1-8eaf-47a5-b246-0c0b457f61a2
+
+	column OrderID
+		dataType: int64
+		formatString: 0
+		lineageTag: 83b334f5-761a-45ed-9fb4-7f734a78879c
+		summarizeBy: count
+		sourceColumn: OrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 346912b3-3d3d-4e1b-afa9-f10caae6fe5b
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		variation Variation
+			isDefault
+			relationship: 166eb0da-a735-4e98-9337-75bf40d64f79
+			defaultHierarchy: LocalDateTable_eb6f806a-488a-4721-a169-f3fbb016ede0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DepartmentID
+		dataType: int64
+		formatString: 0
+		lineageTag: a0a33523-dc54-4508-b9c5-c1ec28b30bd0
+		summarizeBy: none
+		sourceColumn: DepartmentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductID
+		dataType: string
+		lineageTag: 350be97e-538a-49c8-9b9a-d76af9b2133f
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: f3ac106e-fc31-4a07-b8e6-4afb434cdfbe
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: decimal
+		formatString: 0
+		lineageTag: 83e96d3a-c856-4daa-9dbd-9459a8d4595a
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCost
+		dataType: decimal
+		formatString: 0
+		lineageTag: 45863aef-4efe-4846-86f7-ee550b5c8863
+		summarizeBy: sum
+		sourceColumn: UnitCost
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactSales = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\BOCA\powerbi-presentation\data\PowerBI-Demo.xlsx"), null, true),
+				    FactSales_Table = Source{[Item="FactSales",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(FactSales_Table,{{"OrderID", Int64.Type}, {"OrderDate", type date}, {"DepartmentID", Int64.Type}, {"Quantity", Int64.Type}, {"UnitPrice", Currency.Type}, {"UnitCost", Currency.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
