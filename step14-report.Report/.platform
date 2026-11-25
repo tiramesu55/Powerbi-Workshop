@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "step14-report"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ca67f5ab-e3e9-49d4-af04-4d6078b6a945"
+  }
+}

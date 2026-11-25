@@ -1,0 +1,32 @@
+table DimDepartment
+	lineageTag: 5919263c-3d30-4f2a-a941-998029b334c3
+
+	column DepartmentID
+		dataType: int64
+		formatString: 0
+		lineageTag: 50475fa7-f050-456c-9268-e25dc4506fcb
+		summarizeBy: none
+		sourceColumn: DepartmentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Department
+		dataType: string
+		lineageTag: 04d87666-5d73-4b1d-8418-574ae6d53559
+		summarizeBy: none
+		sourceColumn: Department
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDepartment = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\BOCA\powerbi-presentation\data\PowerBI-Demo.xlsx"), null, true),
+				    DimDepartment_Table = Source{[Item="DimDepartment",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(DimDepartment_Table,{{"DepartmentID", Int64.Type}, {"Department", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
